@@ -1,0 +1,54 @@
+body {
+    display: relative;
+}
+
+#container {
+    display: grid;
+    margin: 0 auto;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    width: 500px;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 2%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+
+#content {
+    margin: 10px;
+    border: black;
+    text-align: right;
+    border-style: solid;
+    padding: 10px;
+}
+
+#equals {
+    grid-row: 6;
+    grid-column: 1 / 5;
+}
+
+#content {
+    grid-row: 1;
+    grid-column: 1 / 5;
+}
+
+.input {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+    border-radius: 10%;
+    border: none;
+    outline: none;
+}
+
+.input:hover {
+    background-color: rgb(170, 170, 170);
+}
+
+

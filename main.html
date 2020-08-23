@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="main.css"/>
+    </head>
+    <body>
+        <div id="container">
+            <p id="content">0</p>
+            <button class="input numb" id="one" value="1">1</button>
+            <button class="input numb" id="two" value="2">2</button>
+            <button class="input numb" id="three" value="3">3</button>
+            <button class="input op" id="add" value="+">+</button>
+            <button class="input numb" id="four" value="4">4</button>
+            <button class="input numb" id="five" value="5">5</button>
+            <button class="input numb" id="six" value="6">6</button>
+            <button class="input op" id="minus" value="-">-</button>
+            <button class="input numb" id="seven" value="7">7</button>
+            <button class="input numb" id="eight" value="8">8</button>
+            <button class="input numb" id="nine" value="9">9</button>
+            <button class="input op" id="multiply" value="*">*</button>
+            <button class="input" id="negate" value="+/-">+/-</button>
+            <button class="input numb" id="zero" value="0">0</button>
+            <button class="input" id="clear">clear</button>
+            <button class="input op" id="divide" value="/">/</button>
+            <button class="input calc" id="equals" value="=">=</button>
+        </div> 
+        <script>
+            function add(numOne, numTwo) {
+                return numOne + numTwo;
+            }
+
+            function subtract(numOne, numTwo) {
+                return numOne - numTwo;
+            }
+
+            function multiply(numOne, numTwo) {
+                return numOne * numTwo;
+            }
+
+            function divide(numOne, numTwo) {
+                return numOne / numTwo;
+            }
+
+            function operate(operator, numOne, numTwo) {
+                if (operator === "+") {
+                    return add(numOne, numTwo);
+                } else if (operator === "-") {
+                    return subtract(numOne, numTwo);
+                } else if (operator === "*") {
+                    return multiply(numOne, numTwo);
+                } else if (operator === "/") {
+                    return divide(numOne, numTwo);
+                }
+            }
+            var numbOne = undefined;
+            var numbTwo = undefined;
+            var operator = undefined;
+            const valSoFar = document.querySelector("#content");
+            const allNumbTag = document.querySelectorAll(".numb");
+            allNumbTag.forEach((input) => {
+                input.addEventListener("click", 
+                () => {
+                    if (numbOne === undefined) {
+                        numbOne = parseInt(input.textContent, 10);
+                        valSoFar.innerHTML = numbOne;
+                    } else if (operator === undefined) {
+                        numbOne = (numbOne * 10) + parseInt(input.textContent, 10);
+                        valSoFar.innerHTML = numbOne;
+                    } else if (numbTwo === undefined) {
+                        numbTwo = parseInt(input.textContent, 10);
+                        valSoFar.innerHTML = numbTwo;
+                    } else {
+                        numbTwo = (numbTwo * 10)  + parseInt(input.textContent, 10);
+                        valSoFar.innerHTML = numbTwo;
+                    }});
+            });
+
+            const allOperatorTag = document.querySelectorAll(".op");
+            allOperatorTag.forEach((input) => {
+                input.addEventListener("click",
+                () => {
+                    if (numbOne !== undefined && numbTwo !== undefined) {
+                        if (checkDivision()) {
+                            return;
+                        }   
+                        let currCalc = operate(operator, numbOne, numbTwo);
+                        valSoFar.innerHTML = currCalc;
+                        numbOne = currCalc;
+                        operator = input.textContent;
+                        numbTwo = undefined;
+                    } else if (numbOne !== undefined) {
+                        operator = input.textContent;
+                    }
+                });
+            });
+
+            const calculateTag = document.querySelector(".calc");
+            calculateTag.addEventListener("click", () => {
+                if (numbOne !== undefined && numbTwo !== undefined && operator !== undefined) {
+                    if (checkDivision()) {
+                        return;
+                    }
+                    let currCalc = operate(operator, numbOne, numbTwo);
+                    valSoFar.innerHTML = currCalc;
+                    numbOne = undefined;
+                    operator = undefined;
+                    numbTwo = undefined;
+                }
+            });
+
+            const clearButton = document.querySelector("#clear");
+            clearButton.addEventListener("click", () => {
+                numbOne = undefined;
+                operator = undefined;
+                numbTwo = undefined;
+                valSoFar.innerHTML = 0;
+            });
+
+            const negateButton = document.querySelector("#negate");
+            negateButton.addEventListener("click", () => {
+                if (numbTwo !== undefined) {
+                    numbTwo = -1 * numbTwo;
+                    valSoFar.innerHTML = numbTwo;
+                } else {
+                    numbOne = -1 * numbOne;
+                    valSoFar.innerHTML = numbOne;
+                }
+            });
+            
+            function checkDivision() {
+                if (numbOne !== undefined && numbTwo === 0 && operator === "/") {
+                    valSoFar.innerHTML = "Cannot Divide By Zero";
+                    numbOne = undefined;
+                    operator = undefined;
+                    numbTwo = undefined;
+                    return true;
+                }
+                return false;
+            }
+        </script>
+    </body>
+</html>
